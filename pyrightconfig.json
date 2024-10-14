@@ -1,0 +1,18 @@
+{
+  "defineConstant": {
+    "DEBUG": true
+  },
+
+  "reportMissingImports": "error",
+  "reportMissingTypeStubs": false,
+  "reportUnknownMemberType": "information",
+  "reportUnknownArgumentType": "warning",
+  "reportUnknownVariableType": "information",
+  "reportAttributeAccessIssue": "information",
+  "reportUnknownParameterType": "information",
+  "reportMissingParameterType": "information",
+
+  "pythonVersion": "3.12",
+
+  "executionEnvironments": []
+}

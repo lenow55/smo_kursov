@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "smo-kursov"
+version = "0.1.0"
+description = "Курсовая работа по SMO"
+authors = ["Ilia Novikov WorkB <nov.ilucha@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Ciw = "^3.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
