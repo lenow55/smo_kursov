@@ -1,0 +1,11 @@
+{
+  "configurations": [
+    {
+      "name": "FullCode",
+      "type": "python",
+      "request": "launch",
+      "justMyCode": false,
+      "program": "${file}"
+    }
+  ]
+}
