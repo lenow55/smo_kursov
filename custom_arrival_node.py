@@ -23,8 +23,9 @@ class CustomArrivalNode(ciw.ArrivalNode):
             ):
                 self.record_rejection(next_node, next_individual)
                 self.simulation.nodes[-1].accept(next_individual, completed=False)
-            self.decide_baulk(
-                self.simulation.nodes[self.node_bypass_index], next_individual
-            )
+            else:
+                self.decide_baulk(
+                    self.simulation.nodes[self.node_bypass_index], next_individual
+                )
         else:
             self.decide_baulk(next_node, next_individual)
