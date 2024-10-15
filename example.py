@@ -9,15 +9,18 @@ CustomPartialArrivalClass = partial(CustomArrivalNode, node_bypass_index=3)
 
 N = ciw.create_network(
     arrival_distributions=[
-        ciw.dists.Normal(mean=10, sd=1),  # Сообщения А -> B
-        ciw.dists.Normal(mean=10, sd=1),  # Сообщения B -> A
+        # ciw.dists.Normal(mean=10, sd=1),  # Сообщения А -> B
+        # ciw.dists.Normal(mean=10, sd=1),  # Сообщения B -> A
+        ciw.dists.Uniform(lower=7, upper=13),  # Сообщения А -> B
+        ciw.dists.Uniform(lower=7, upper=13),  # Сообщения B -> A
         None,  # Сообщения на спутниковую линию приходят только при занятости каналов 1, 2
     ],
     service_distributions=[
         ciw.dists.Deterministic(value=10.0),  # Передача сообщения A -> B
         ciw.dists.Deterministic(value=10.0),  # Передача сообщения B -> A
         # Передача по спутниковой линии (полудуплекс - 1 сообщение в каждую сторону)
-        ciw.dists.Normal(mean=10, sd=5 / 3),
+        # ciw.dists.Normal(mean=10, sd=5 / 3),
+        ciw.dists.Uniform(lower=5, upper=15),
     ],
     routing=ciw.routing.NetworkRouting(
         # После прохождения каждого из каналов сообщения покидают систему
