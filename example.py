@@ -39,14 +39,32 @@ N = ciw.create_network(
     queue_capacities=[1, 1, 0],
 )
 
-# ciw.seed(1)
+ciw.seed(1)
 
-# Q = ciw.Simulation(N, arrival_node_class=CustomPartialArrivalClass)
+Q = ciw.Simulation(N, arrival_node_class=CustomPartialArrivalClass)
 
 # Q.simulate_until_max_customers(max_customers=10, progress_bar=True, method="Arrive")
-# Q.simulate_until_max_time(max_simulation_time=60000, progress_bar=True)
+Q.simulate_until_max_time(max_simulation_time=600000, progress_bar=True)
 
-# recs = Q.get_all_records()
+recs = Q.get_all_records()
+node1_records = filter(lambda r: r.node == 1 and r.record_type == "service", recs)
+node2_records = filter(lambda r: r.node == 2 and r.record_type == "service", recs)
+node3_records = filter(lambda r: r.node == 3 and r.record_type == "service", recs)
+nodeR1_records = filter(lambda r: r.node == 1 and r.record_type == "rejection", recs)
+nodeR2_records = filter(lambda r: r.node == 2 and r.record_type == "rejection", recs)
+waits = [float(r.waiting_time + r.service_time) for r in node1_records]
+mean_wait = sum(waits) / len(waits)
+print(mean_wait)
+print(len(waits))
+print(len(list(node2_records)))
+print(len(list(node3_records)))
+list_nodeR1 = list(nodeR1_records)
+list_nodeR2 = list(nodeR2_records)
+print(len(list_nodeR1))
+print(len(list_nodeR2))
+
+print(list_nodeR1[:5])
+print(list_nodeR2[:5])
 # print(len([r for r in recs if r.record_type == "rejection"]))
 # print(len([r for r in recs if r.record_type == "service"]))
 # print(len(recs))
@@ -70,34 +88,39 @@ N = ciw.create_network(
 #
 # print([r.data_records[-1].exit_date for r in Q.nodes[-1].all_individuals])
 
-# print(Q.transitive_nodes[0].server_utilisation)
-# print(Q.transitive_nodes[0].id_number)
-# print(Q.transitive_nodes[1].server_utilisation)
-# print(Q.transitive_nodes[1].id_number)
-# print(Q.transitive_nodes[2].server_utilisation)
-# print(Q.transitive_nodes[2].id_number)
+print(Q.transitive_nodes[0].server_utilisation)
+print(Q.transitive_nodes[0].id_number)
+print(Q.transitive_nodes[1].server_utilisation)
+print(Q.transitive_nodes[1].id_number)
+print(Q.transitive_nodes[2].server_utilisation)
+print(Q.transitive_nodes[2].id_number)
 #
 # recs = Q.get_all_records(only=["rejection"])
 # print(len(recs))
 
-max_time = 60000
-repetitions = 100
-
-
-def get_mean_wait(network, seed: int = 0, max_time: int = 10000) -> float:
-    """Return the mean waiting time for a given network"""
-    ciw.seed(seed)
-    CustomPartialArrivalClass = partial(CustomArrivalNode, node_bypass_index=3)
-    Q = ciw.Simulation(network, arrival_node_class=CustomPartialArrivalClass)
-    Q.simulate_until_max_time(max_simulation_time=max_time)
-    recs = Q.get_all_records()
-    waits = [float(r.waiting_time) for r in recs if not math.isnan(r.waiting_time)]
-    mean_wait = sum(waits) / len(waits)
-    return mean_wait
-
-
-if __name__ == "__main__":
-    pool = multiprocessing.Pool(processes=4)
-    args = [(N, seed, max_time) for seed in range(repetitions)]
-    waits = pool.starmap(get_mean_wait, args)
-    print(sum(waits) / repetitions)
+# max_time = 60000
+# repetitions = 2
+#
+#
+# def get_mean_wait(network, seed: int = 0, max_time: int = 10000) -> float:
+#     """Return the mean waiting time for a given network"""
+#     ciw.seed(seed)
+#     CustomPartialArrivalClass = partial(CustomArrivalNode, node_bypass_index=3)
+#     Q = ciw.Simulation(network, arrival_node_class=CustomPartialArrivalClass)
+#     Q.simulate_until_max_time(max_simulation_time=max_time)
+#     # recs = Q.get_all_records()
+#     recs = Q.nodes[1].all_individuals
+#     waits = [
+#         float(r.data_records[0].waiting_time)
+#         for r in recs
+#         if not math.isnan(r.data_records[0].waiting_time)
+#     ]
+#     mean_wait = sum(waits) / len(waits)
+#     return mean_wait
+#
+#
+# if __name__ == "__main__":
+#     pool = multiprocessing.Pool(processes=1)
+#     args = [(N, seed, max_time) for seed in range(repetitions)]
+#     waits = pool.starmap(get_mean_wait, args)
+#     print(sum(waits) / repetitions)
